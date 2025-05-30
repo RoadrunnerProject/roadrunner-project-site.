@@ -1,111 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Roadrunner Project</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
-    body {
-      margin: 0;
-      background: #000;
-      color: #fff;
-      font-family: 'Space Mono', monospace;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-
-    .glitch {
-      font-size: 1.2rem;
-      color: #fff;
-      position: relative;
-      animation: glitch 2s infinite;
-    }
-
-    @keyframes glitch {
-      0% { text-shadow: 2px 0 red, -2px 0 blue; }
-      20% { text-shadow: -2px 0 red, 2px 0 blue; }
-      40% { text-shadow: 2px 2px red, -2px -2px blue; }
-      60% { text-shadow: 0 0 red, 0 0 blue; }
-      80% { text-shadow: -2px 2px red, 2px -2px blue; }
-      100% { text-shadow: 2px 0 red, -2px 0 blue; }
-    }
-
-    .btn {
-      background: #fff;
-      color: #000;
-      padding: 0.8rem 1.5rem;
-      text-decoration: none;
-      margin: 2rem 0;
-      font-weight: bold;
-      border-radius: 4px;
-      transition: background 0.3s;
-    }
-
-    .btn:hover {
-      background: #ff0000;
-      color: #fff;
-    }
-
-    .log {
-      max-width: 500px;
-      margin: 1rem;
-      padding: 1rem;
-      border: 1px solid #333;
-      background: rgba(255,255,255,0.02);
-    }
-
-    .log-entry {
-      margin-bottom: 0.8rem;
-    }
-
-    .bg-noise {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif');
-      opacity: 0.04;
-      z-index: -1;
-      pointer-events: none;
-    }
-
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Roadrunner Project</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+  body, html {
+    margin: 0; padding: 0;
+    height: 100%;
+    background: #000;
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    overflow-x: hidden;
+  }
+  #splash {
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    user-select: none;
+  }
+  svg {
+    width: 250px;
+    height: 150px;
+    stroke: white;
+    fill: none;
+    stroke-width: 2;
+    filter: drop-shadow(0 0 4px #0ff);
+    animation: flicker 3s infinite;
+  }
+  @keyframes flicker {
+    0%, 100% { stroke-opacity: 1; filter: drop-shadow(0 0 6px #0ff); }
+    50% { stroke-opacity: 0.6; filter: drop-shadow(0 0 15px #0ff); }
+  }
+  .glitch-text {
+    font-size: 2rem;
+    margin-top: 1rem;
+    animation: glitch 2s infinite;
+  }
+  @keyframes glitch {
+    0% { text-shadow: 2px 0 cyan, -2px 0 magenta; }
+    20% { text-shadow: -2px 0 cyan, 2px 0 magenta; }
+    40% { text-shadow: 2px 2px cyan, -2px -2px magenta; }
+    60% { text-shadow: 0 0 cyan, 0 0 magenta; }
+    80% { text-shadow: -2px 2px cyan, 2px -2px magenta; }
+    100% { text-shadow: 2px 0 cyan, -2px 0 magenta; }
+  }
+  #main-content {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+  .btn {
+    background: #fff;
+    color: #000;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    margin: 2rem 0;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: background 0.3s;
+  }
+  .btn:hover {
+    background: #ff0000;
+    color: #fff;
+  }
+  .log {
+    max-width: 500px;
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid #333;
+    background: rgba(255,255,255,0.02);
+    color: #fff;
+  }
+  .log-entry {
+    margin-bottom: 0.8rem;
+  }
+  .bg-noise {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif');
+    opacity: 0.04;
+    z-index: -1;
+    pointer-events: none;
+  }
+</style>
 </head>
 <body>
 
-<div class="bg-noise"></div>
-
-<h1>The Roadrunner Project</h1>
-<div class="glitch" id="tagline">You won’t know who. They won’t know you. But you’ll know you helped.</div>
-
-<a class="btn" href="#" target="_blank">Donate Now</a>
-
-<div class="log">
-  <div class="log-entry">05/29/25 — Sick man fed on Temecula Parkway. Roadrunner out.</div>
+<div id="splash" role="img" aria-label="Roadrunner project logo animation">
+  <!-- Replace this SVG with your actual Tacoma outline SVG -->
+  <svg viewBox="0 0 200 100" aria-hidden="true">
+    <polyline points="10,80 30,40 50,40 70,20 120,20 150,40 170,40 190,70" />
+    <circle cx="50" cy="80" r="10" />
+    <circle cx="150" cy="80" r="10" />
+  </svg>
+  <div class="glitch-text">The Roadrunner Project</div>
 </div>
 
+<div id="main-content" style="display:flex; flex-direction:column; align-items:center;">
+  <div class="bg-noise"></div>
+
+  <h1>The Roadrunner Project</h1>
+  <div class="glitch" id="tagline">You won’t know who. They won’t know you. But you’ll know you helped.</div>
+
+  <a class="btn" href="https://cash.app/$YourCashtag" target="_blank">Donate Now</a>
+
+  <div class="log">
+    <div class="log-entry">05/29/25 — Sick man fed on Temecula Parkway. Roadrunner out.</div>
+    <div class="log-entry">05/27/25 — Two survival kits delivered near Rancho Market.</div>
+    <div class="log-entry">05/25/25 — Gas tank filled. Stranger’s night saved.</div>
+  </div>
+</div>
+
+<!-- Sound effects -->
+<audio id="ambientSound" src="https://freesound.org/data/previews/170/170148_2437358-lq.mp3" preload="auto"></audio>
+<audio id="glitchSound" src="https://freesound.org/data/previews/256/256113_4486188-lq.mp3" preload="auto"></audio>
+
 <script>
+  const splash = document.getElementById('splash');
+  const mainContent = document.getElementById('main-content');
   const tagline = document.getElementById('tagline');
+  const ambientSound = document.getElementById('ambientSound');
+  const glitchSound = document.getElementById('glitchSound');
+
   const lines = [
     'You won’t know who. They won’t know you. But you’ll know you helped.',
     'Anonymous kindness. Maximum impact.'
   ];
   let index = 0;
+
+  // Play ambient sound softly on load
+  ambientSound.volume = 0.1;
+  ambientSound.loop = true;
+  ambientSound.play().catch(() => { /* Autoplay might block, ignore */ });
+
+  // Play glitch sound at start
+  glitchSound.volume = 0.15;
+  glitchSound.play().catch(() => { /* Autoplay might block, ignore */ });
+
+  // Switch tagline every 4 seconds
   setInterval(() => {
     index = (index + 1) % lines.length;
     tagline.textContent = lines[index];
+  }, 4000);
+
+  // After 4 seconds, fade out splash, fade in main content
+  setTimeout(() => {
+    splash.style.opacity = 0;
+    splash.style.transition = 'opacity 1.2s ease';
+    setTimeout(() => {
+      splash.style.display = 'none';
+      mainContent.style.display = 'flex';
+      setTimeout(() => {
+        mainContent.style.opacity = 1;
+      }, 50);
+    }, 1200);
   }, 4000);
 </script>
 
